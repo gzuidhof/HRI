@@ -72,7 +72,7 @@
 
 \subsection{Goal} The goal is to at least let the robot and a user perform a simple recipe together, where the robot provides the instructions and the user has to perform them. When that foundation is ready we can implement improvementes: timers, ability to answer open questions (such as, "How long till the pasta is done?").
 
-\subsection{Target Group} The target group is not entirely clear yet: it could be useful for both the young and old but those groups have some differences. Since it is probably dangerous to let a robot alone with a child for a while it is probably safer to start with building it for the elderly. This is useful for them because it can keep them busy and they might have trouble reading a recipe. Ofcourse the elderly are less able to adjust to mistakes the robot makes and also add some other difficulties.
+\subsection{Target Group} The target group is not entirely clear yet: it could be useful for both the young and old but those groups have some differences. Since it is probably dangerous to let a robot alone with a child for a while it is probably safer to start with building it for the elderly. This is useful for them because it can keep them busy and they might have trouble reading a recipe. Of course the elderly are less able to adjust to mistakes the robot makes and also add some other difficulties.
 
 \subsection{Risks} (COMMENT VAN STEF: ik had dit eerder bedoeld als: welk deel van het project kan fout gaan waardoor het niet succesvol afgerond gaat worden, bijv. we krijgen het niet voor elkaar om de voice recognition goed te krijgen waardoor het eigenlijk niet werkt, ik denk dus dat WIT.AI niet een groot probleem gaat worden dus dat is mss goed om te zeggen maar de dialogue manager wel)
 
@@ -110,6 +110,43 @@ Constructing the meaningful response is the hard part of this project and a plan
 We will test different level of complexities of recipes and research whether the interaction was smooth and if it is preferable to performing the task by yourself.
 
 \section{Plan}
-Team: we will probably use AGILE development and thus we don't know for sure what the schedule will be like. In the first month we will attempt to implement the most basic version of our project and from then on make it more advanced.
+We plan on applying AGILE development methodologies. The plan is to work iteratively, working from working version to working version. In the first month we will attempt to implement the most basic version of our project and from then on make it more advanced.
+
+Here is a draft overview of proposed versions without dates:
+
+\paragraph{Prototype 1}
+\begin{enumerate}
+\item Can synthesize speech
+\item Can understand simple commands such as \emph{"Set a timer for 3 minutes please"}
+
+\end{enumerate}
+
+\paragraph{Prototype 2}
+\begin{enumerate}
+\item Can answer questions about running commands such as \emph{"How long until the oven timer is done?"}
+\item Has an internal representation of the recipe
+\item Looks at the user (when asked questions)
+
+\end{enumerate}
+
+\paragraph{Prototype 3}
+\begin{enumerate}
+\item Keeps track of the progress of the recipe
+\item Asks the user about the progress to update this knowledge
+
+\end{enumerate}
+
+
+\paragraph{Nice to have}
+\emph{(Only to be implemented if time permits)}
+
+\begin{enumerate}
+\item Can answer more complex questions such as \emph{"What was the oven temperature again?"}
+\item Knows multiple recipes
+\item When shown the box (with barcode) of a 'maaltijdmix', it looks this up in a (small) repository of recipes and loads it.
+
+\end{enumerate}
+
+
 
 \end{document}
