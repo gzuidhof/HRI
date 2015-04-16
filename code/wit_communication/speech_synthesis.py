@@ -4,10 +4,11 @@ import pyttsx
 engine = pyttsx.init()
 engine.setProperty('rate', 130)
 
+ROBOTIC_VOICE = 3
+AWESOME_VOICE = 9
 voices = engine.getProperty('voices')
 
 def say_something(s):
-    print "Using voice:", repr(voices[3])
-    engine.setProperty('voice', voices[3].id)
+    engine.setProperty('voice', voices[AWESOME_VOICE].id)
     engine.say(s)
     engine.runAndWait()

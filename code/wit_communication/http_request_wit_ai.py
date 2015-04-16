@@ -34,23 +34,19 @@ def get_wit_response():
     response = get_outcome_response(response)
     return response
 
+speech_synthesis.say_something("Ask me something!")
 response = get_wit_response()
-
-print response
-
-amount = "200 grams"
 
 recipe = {"flour": "200 grams", "butter": "150 grams", "eggs": "2", "sugar": "150 grams"}
 
 if response["intent"] == "check_amount":
     if "product" in response:
-        speech_synthesis.say_something("The amount you need of " + response["product"] + " is " + recipe[response["product"]])
+        if response["product"] not in recipe:
+            speech_synthesis.say_something("You do not need " + response["product"])
+        else:
+            speech_synthesis.say_something("The amount you need of " + response["product"] + " is " + recipe[response["product"]])
     else:
         speech_synthesis.say_something("I did not quite get that, what product did you say?")
-
-#for key, value in stuff:
- #   print key
-  #  print value
 
 
 
