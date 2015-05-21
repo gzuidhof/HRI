@@ -5,21 +5,26 @@ import http_request_wit_ai
 import naoqi_speech
 
 def ask_for_something():
-    naoqi_speech.say("Ask me something!")
-
     response = http_request_wit_ai.get_wit_response()
     recipe = {"flour": "200 grams", "butter": "150 grams", "eggs": "2", "sugar": "150 grams", "duration": "15 minutes"}
 
     steps = ["Mix flour with butter", "Cook the pasta", "Do something cool"]
 
     current_step = 0
+    if "product" in response:
+        product_name = str(response["product"])
+        print "product: " + product_name
 
-    product_name = str(response["product"])
-    intent = str(response["intent"])
-    print "printing stuff"
-    print product_name
-    print intent
+    if "intent" in response:
+        intent = str(response["intent"])
+        print "intent: " + intent
 
+    if "confidence" in response:
+        confidence = float(response["confidence"])
+        print "confidence: " + str(confidence)
+
+    if confidence and confidence < 0.5:
+        naoqi_speech.say("U wot, repeat that shit bitch")
 
     if intent == "check_amount":
         if "product" in response:
@@ -46,6 +51,12 @@ def ask_for_something():
                 current_step -= 1
                 current_step = max(0, current_step)
                 naoqi_speech.say("The previous step is: " + steps[current_step])
-    ask_for_something()
+
+    return False
 
 ask_for_something()
+
+#stop = False
+#
+#while(not stop):
+#    stop = ask_for_something()
