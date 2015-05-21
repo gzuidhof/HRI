@@ -9,6 +9,3 @@ class Step():
         if self.ingredients.has_key(what):
             return self.ingredients[what]
         return None;
-
-
-Step()
