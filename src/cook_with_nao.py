@@ -28,6 +28,7 @@ class Cookert():
 
         if confidence and confidence < 0.5:
             self.say("I don't know what you mean.")
+            return
 
         if intent == 'instruction_navigation':
             if 'relative_instruction_navigation' in response:
