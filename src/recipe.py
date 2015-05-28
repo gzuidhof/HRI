@@ -48,7 +48,10 @@ class Recipe():
         else: #no break, so ingredient was not found
             return "I don't know which ingredient you mean"
 
-        return 'You need ' + amount + ' of ' + ingredient
+        if amount.isdigit():
+            return 'You need ' + amount + ingredient
+        else:
+            return 'You need ' + amount + ' of ' + ingredient
 
     def ask_tools(self):
         tool_enumeration = ""
