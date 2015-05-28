@@ -14,13 +14,14 @@ class Cookert():
     def __init__(self, recipe):
         self.recipe = recipe
 
-
     def cook(self):
+
         resp = self.get_response()
         if resp:
             response, product_name, intent, confidence = resp
         else:
             return
+
         #Start sequence, say hello
 
         #while recipe.done == False:
