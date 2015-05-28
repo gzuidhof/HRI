@@ -1,4 +1,13 @@
 import recipe
+import http_request_wit_ai
+
+use_nao = False
+
+if use_nao:
+    import naoqi_speech
+else:
+    import speech_synthesis
+
 
 class Cookert():
 
