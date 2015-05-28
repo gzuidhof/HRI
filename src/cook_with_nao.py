@@ -15,7 +15,7 @@ class Cookert():
         self.recipe = recipe
 
 
-    def cook(recipe):
+    def cook(self):
 
         response, product_name, intent, confidence = self.get_response()
 
