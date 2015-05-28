@@ -3,7 +3,7 @@ __author__ = 'stefjanssen'
 
 import http_request_wit_ai
 
-use_nao = False
+use_nao = True
 
 if use_nao:
     import naoqi_speech
@@ -56,7 +56,8 @@ def ask_for_something():
 
     if intent == "instruction_navigation":
         print 'in instruction navigation'
-        if "relative_instruction_navigation" in response["entities"]:
+        print response
+        if "relative_instruction_navigation" in response:
             print 'in relative if'
             if response["relative_instruction_navigation"] == "next":
                 print 'next'
@@ -67,7 +68,12 @@ def ask_for_something():
                 current_step -= 1
                 current_step = max(0, current_step)
                 say("The previous step is: " + steps[current_step])
-
+            elif response["relative_instruction_navigation"] == "current":
+                print 'current'
+                say("The current step is: " + steps[current_step])
+            else:
+                print "unknown"
+                say("Unknown relative instruction navigation")
     return False
 
 ask_for_something()

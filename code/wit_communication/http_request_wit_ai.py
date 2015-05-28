@@ -25,6 +25,8 @@ def get_outcome_response(json_response):
         for key, value in outcome.iteritems():
             if key == "entities":
                 for key2, value2 in value.iteritems():
+                    print key2
+                    print value2
                     response[key2] = value2[0]["value"]
             if key == "intent":
                 response["intent"] = value
