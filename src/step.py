@@ -4,7 +4,8 @@ class Step():
         self.instruction = instruction
         self.ingredients = ingredients
         self.duration = duration
-
+        self.tools = tools
+        
     def get_ingredient(self, what):
         if self.ingredients.has_key(what):
             return self.ingredients[what]
