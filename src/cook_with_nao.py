@@ -86,9 +86,10 @@ class Cookert():
 if __name__ == '__main__':
     cupcake_recipe = recipe.cupcakes
 
-    cook = Cookert(cupcake_recipe)
-    cook.on_navigation_intent('repeat')
-    cook.on_navigation_intent('next')
-    cook.on_how_long_intent()
-    cook.on_how_much_intent('flour')
-    cook.on_tools_intent()
+    cookert = Cookert(cupcake_recipe)
+    cookert.cook()
+    #cook.on_navigation_intent('repeat')
+    #cook.on_navigation_intent('next')
+    #cook.on_how_long_intent()
+    #cook.on_how_much_intent('flour')
+    #cook.on_tools_intent()
