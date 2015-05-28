@@ -11,7 +11,7 @@ class Cookert():
         #Start sequence, say hello
 
 
-        while recipe.done == false:
+        while recipe.done == False:
             #Capture intent
             intent = None
 
