@@ -15,22 +15,24 @@ class Cookert():
         self.recipe = recipe
 
 
-    def cook(recipe):
-
-        response, product_name, intent, confidence = self.get_response()
-
+    def cook(self):
+        resp = self.get_response()
+        if resp:
+            response, product_name, intent, confidence = resp
+        else:
+            return
         #Start sequence, say hello
 
         #while recipe.done == False:
 
         if confidence and confidence < 0.5:
-            say("I don't know what you mean.")
+            self.say("I don't know what you mean.")
 
         if intent == 'instruction_navigation':
             if 'relative_instruction_navigation' in response:
                 self.on_navigation_intent(response['relative_instruction_navigation'])
             else:
-                print '?!?!?'
+                print 'askdfjasdfj'
         elif intent == 'check_duration':
             self.on_how_long_intent()
         elif intent == 'check_amount':
@@ -41,6 +43,9 @@ class Cookert():
 
     def get_response(self):
         response = http_request_wit_ai.get_wit_response()
+        product_name = None
+        intent = None
+        confidence = None
         if not response:
             return
 
@@ -54,7 +59,7 @@ class Cookert():
 
         if "confidence" in response:
             confidence = float(response["confidence"])
-            print "confidence: " + str(confidence
+            print "confidence: " + str(confidence)
 
         return response, product_name, intent, confidence
 
