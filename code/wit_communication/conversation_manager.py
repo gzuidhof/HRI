@@ -1,11 +1,26 @@
 __author__ = 'stefjanssen'
 
-import speech_synthesis
+
 import http_request_wit_ai
-import naoqi_speech
+
+use_nao = False
+
+if use_nao:
+    import naoqi_speech
+else:
+    import speech_synthesis
+
+def say(speech):
+    if use_nao:
+        naoqi_speech.say(speech)
+    else:
+        speech_synthesis.say_something(speech)
+
 
 def ask_for_something():
     response = http_request_wit_ai.get_wit_response()
+    if not response:
+        return
     recipe = {"flour": "200 grams", "butter": "150 grams", "eggs": "2", "sugar": "150 grams", "duration": "15 minutes"}
 
     steps = ["Mix flour with butter", "Cook the pasta", "Do something cool"]
@@ -24,19 +39,20 @@ def ask_for_something():
         print "confidence: " + str(confidence)
 
     if confidence and confidence < 0.5:
-        naoqi_speech.say("U wot, repeat that shit bitch")
+        say("U wot, repeat that shit bitch")
+        return
 
     if intent == "check_amount":
         if "product" in response:
             if product_name not in recipe:
-                naoqi_speech.say("You do not need " + product_name)
+                say("You do not need " + product_name)
             else:
-                naoqi_speech.say("The amount you need of " + product_name + " is " + recipe[product_name])
+                say("The amount you need of " + product_name + " is " + recipe[product_name])
         else:
-            naoqi_speech.say("I did not quite get that, what product did you say?")
+            say("I did not quite get that, what product did you say?")
 
     if intent == "check_duration":
-        naoqi_speech.say("You need to perform this for " + recipe["duration"])
+        say("You need to perform this for " + recipe["duration"])
 
     if intent == "instruction_navigation":
         print 'in instruction navigation'
@@ -45,18 +61,15 @@ def ask_for_something():
             if response["relative_instruction_navigation"] == "next":
                 print 'next'
                 current_step += 1
-                naoqi_speech.say("The next step is: " + steps[current_step])
+                say("The next step is: " + steps[current_step])
             elif response["relative_instruction_navigation"] == "previous":
                 print 'previous'
                 current_step -= 1
                 current_step = max(0, current_step)
-                naoqi_speech.say("The previous step is: " + steps[current_step])
+                say("The previous step is: " + steps[current_step])
 
     return False
 
 ask_for_something()
 
-#stop = False
-#
-#while(not stop):
-#    stop = ask_for_something()
+

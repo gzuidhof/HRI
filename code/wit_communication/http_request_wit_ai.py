@@ -9,6 +9,12 @@ print 'waaaaazzuuuup'
 
 def get_outcome_response(json_response):
     print "Raw json: ", json_response
+
+    for key, value in json_response.iteritems():
+        if key == "_text":
+            if value is None:
+                return False
+
     for key, value in json_response.iteritems():
         if key == "outcomes":
             if value:
