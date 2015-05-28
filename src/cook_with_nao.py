@@ -17,33 +17,58 @@ class Cookert():
 
     def cook(recipe):
 
+        response, product_name, intent, confidence = self.get_response()
+
         #Start sequence, say hello
 
+        #while recipe.done == False:
 
-        while recipe.done == False:
-            #Capture intent
-            intent = None
+        if confidence and confidence < 0.5:
+            say("I don't know what you mean.")
 
-            if intent.type == 'navigation':
-                self.on_navigation_intent(intent)
-            elif intent.type == 'how_lan':
-                self.on_how_long_intent()
-            elif intent.type == 'how_much':
-                self.on_how_much_intent(intent.ingredient)
-            elif intent.type == 'what_tools':
-                self.on_tools_intent()
+        if intent == 'instruction_navigation':
+            if 'relative_instruction_navigation' in response:
+                self.on_navigation_intent(response['relative_instruction_navigation'])
+            else:
+                print '?!?!?'
+        elif intent == 'check_duration':
+            self.on_how_long_intent()
+        elif intent == 'check_amount':
+            self.on_how_much_intent(product_name)
+        elif intent == 'what_tools': #Doesn't exist yet
+            self.on_tools_intent()
 
 
+    def get_response(self):
+        response = http_request_wit_ai.get_wit_response()
+        if not response:
+            return
 
-    def on_navigation_intent(self, intent_type):
-        if intent_type == 'repeat':
+        if "product" in response:
+            product_name = str(response["product"])
+            print "product: " + product_name
+
+        if "intent" in response:
+            intent = str(response["intent"])
+            print "intent: " + intent
+
+        if "confidence" in response:
+            confidence = float(response["confidence"])
+            print "confidence: " + str(confidence
+
+        return response, product_name, intent, confidence
+
+    def on_navigation_intent(self, relative):
+        if relative == 'current':
             self.say(self.recipe.get_current_instruction())
-        elif intent_type == 'next':
+        elif relative == 'next':
             self.recipe.next_step()
             self.say(self.recipe.get_current_instruction())
-        elif intent_type == 'previous':
+        elif relative == 'previous':
             self.recipe.previous_step()
             self.say(self.recipe.get_current_instruction())
+        elif relative == 'unknown':
+            self.say('Unknown relative instruction navigation')
 
     def on_how_long_intent(self):
         self.say(self.recipe.ask_how_long())
@@ -58,11 +83,6 @@ class Cookert():
         print what
 
 
-
-
-
-
-
 if __name__ == '__main__':
     cupcake_recipe = recipe.cupcakes
 
@@ -72,5 +92,3 @@ if __name__ == '__main__':
     cook.on_how_long_intent()
     cook.on_how_much_intent('flour')
     cook.on_tools_intent()
-    #cook.on_how_long_intent()
-    #cook.get_current_instruction()
