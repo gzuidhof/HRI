@@ -1,5 +1,7 @@
 import recipe
 import http_request_wit_ai
+import time
+from microphone_loudness import TapTester
 
 use_nao = False
 
@@ -14,9 +16,23 @@ class Cookert():
     def __init__(self, recipe):
         self.recipe = recipe
 
-    def cook(self):
 
+
+    def cook(self):
+        #Create noise listener
+        listener = TapTester()
+
+        while self.recipe.done == False:
+            listener.listen_until_noise()
+            self.listen_and_answer()
+            time.sleep(3) #Sleep 3 seconds as Nao talks
+
+
+    #Listen to actual question and answer
+    def listen_and_answer(self):
         resp = self.get_response()
+
+    def answer(self, resp):
         if resp:
             response, product_name, intent, confidence = resp
         else:
@@ -95,8 +111,3 @@ if __name__ == '__main__':
 
     cookert = Cookert(cupcake_recipe)
     cookert.cook()
-    #cook.on_navigation_intent('repeat')
-    #cook.on_navigation_intent('next')
-    #cook.on_how_long_intent()
-    #cook.on_how_much_intent('flour')
-    #cook.on_tools_intent()
