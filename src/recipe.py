@@ -18,7 +18,7 @@ class Recipe():
 
     def previous_step(self):
         if self.step_number >= 1:
-            stel.step_number -= 1
+            self.step_number -= 1
 
         # If someone says previous step at the very end
         self.done = False
@@ -96,7 +96,7 @@ cupcakes = Recipe()
 
 step1 = Step(
     instruction="Throw everything into a bowl",
-    ingredients={'flour': 'duzend gram', 'bread': '1 litre'},
+    ingredients={'flour': '1000 gram', 'water': '1 litre', 'egg': '1'},
     duration='',
     tools=['bowl']
 )

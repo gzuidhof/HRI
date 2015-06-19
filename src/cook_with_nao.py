@@ -1,9 +1,9 @@
 import recipe
 import http_request_wit_ai
 import time
-from microphone_loudness import TapTester
+from microphone_loudness import NoiseListener
 
-use_nao = False
+use_nao = True
 
 if use_nao:
     import naoqi_speech
@@ -16,11 +16,9 @@ class Cookert():
     def __init__(self, recipe):
         self.recipe = recipe
 
-
-
     def cook(self):
         #Create noise listener
-        listener = TapTester()
+        listener = NoiseListener()
 
         while self.recipe.done == False:
             listener.listen_until_noise()
@@ -31,6 +29,7 @@ class Cookert():
     #Listen to actual question and answer
     def listen_and_answer(self):
         resp = self.get_response()
+        self.answer(resp)
 
     def answer(self, resp):
         if resp:
@@ -103,6 +102,7 @@ class Cookert():
         self.say(self.recipe.ask_tools())
 
     def say(self, what):
+        naoqi_speech.say(what)
         print what
 
 
