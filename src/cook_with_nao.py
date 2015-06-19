@@ -33,11 +33,7 @@ class Cookert():
 
             #Listen to the user
             self.listen_and_answer()
-
-            #Sleep 3 as Nao talks
-            if use_nao: #Not required on PC speech synthesis
-                time.sleep(3)
-
+            
     def query_user(self):
         self.say("Yessss?")
 
