@@ -19,7 +19,7 @@ class Cookert():
 
     def __init__(self, recipe):
         self.recipe = recipe
-        self.faceTracker = tracker.FaceTracker()
+        self.faceTracker = tracker.FaceTracker(use_nao)
 
     def cook(self):
         #Create noise listener
