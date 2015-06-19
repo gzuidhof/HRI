@@ -37,6 +37,8 @@ def get_wit_response():
     response = wit.voice_query_auto(access_token)
     print('Raw: {}'.format(response))
     wit.close()
+    if not response:
+        return None
     response = json.loads(response)
     response = get_outcome_response(response)
     return response
