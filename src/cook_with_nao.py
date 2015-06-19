@@ -1,14 +1,17 @@
 import recipe
-import http_request_wit_ai
 import time
 from microphone_loudness import TapTester
 
 use_nao = False
+use_wit = False
 
 if use_nao:
     import naoqi_speech as speech
 else:
     import speech_synthesis as speech
+
+if use_wit:
+    import http_request_wit_ai
 
 
 class Cookert():
@@ -46,10 +49,6 @@ class Cookert():
             response, product_name, intent, confidence = resp
         else:
             return
-
-        #Start sequence, say hello
-
-        #while recipe.done == False:
 
         if confidence and confidence < 0.5:
             self.say("I don't know what you mean.")
@@ -112,7 +111,7 @@ class Cookert():
         self.say(self.recipe.ask_tools())
 
     def say(self, what):
-        print "Saying ", what
+        print "Saying", what
         speech.say(what)
 
 
