@@ -1,11 +1,15 @@
 from step import Step
 
 class Recipe():
-
-    def __init__(self, steps=[]):
+    """
+        Data structure for recipes, contains a bunch of steps and keeps track
+        of where in the process the user is.
+    """
+    def __init__(self, steps=[], name='this'):
         self.steps = steps
         self.step_number = 0
         self.done = False
+        self.name = name
 
     def add_step(self,step):
         self.steps.append(step)
@@ -18,7 +22,7 @@ class Recipe():
 
     def previous_step(self):
         if self.step_number >= 1:
-            stel.step_number -= 1
+            self.step_number -= 1
 
         # If someone says previous step at the very end
         self.done = False
@@ -29,6 +33,7 @@ class Recipe():
     def get_current_duration(self):
         return self.steps[self.step_number].duration
 
+    # "How long do I ...?"
     def ask_how_long(self):
         if len(self.get_current_duration()) > 0:
             return self.get_current_instruction() + " for " + self.get_current_duration()
@@ -38,6 +43,8 @@ class Recipe():
     def get_current_tools(self):
         return self.steps[self.step_number].tools
 
+
+    # "How much of X do I need?"
     def ask_amount(self,ingredient):
 
         for index in self._search_order():
@@ -48,11 +55,13 @@ class Recipe():
         else: #no break, so ingredient was not found
             return "I don't know which ingredient you mean"
 
-        if amount.isdigit():
+        #Construct sentence
+        if amount.isdigit(): #You need 3 eggs
             return 'You need ' + amount + ingredient
-        else:
+        else: #You need 200 grams of flour
             return 'You need ' + amount + ' of ' + ingredient
 
+    # "What tools do I need (for this step)?"
     def ask_tools(self):
         tool_enumeration = ""
         for tool in self.get_current_tools():
@@ -62,6 +71,25 @@ class Recipe():
         tool_enumeration = tool_enumeration[:-3]
 
         return "For this step you need a " + tool_enumeration
+
+    # "What ingredients do I need?"
+    def ask_ingredients(self):
+        ingredients = self.get_all_ingredients
+
+        #Construct a sentence
+        sentence = "To make " + self.name + " you need "
+        n = len(ingredients)
+
+        for i, ingredient in ingredients:
+            if i == n and not i == 0:
+                sentence += "and " + ingredient
+            else:
+                if i==0:
+                    sentence += ingredient
+                else:
+                    sentence += ", " + ingredient
+
+        return sentence
 
 
     def get_all_tools(self):
@@ -83,7 +111,8 @@ class Recipe():
 
         return ingredients
 
-
+    #Used for searching amount required of ingredient
+    #Starts from current step
     def _search_order(self):
         cur = self.step_number
         x = range(len(self.steps))
@@ -92,11 +121,14 @@ class Recipe():
 
         return order
 
+
+## Cupcake recipe definition
+
 cupcakes = Recipe()
 
 step1 = Step(
-    instruction="Throw everything into a bowl",
-    ingredients={'flour': 'duzend gram', 'bread': '1 litre'},
+    instruction="Throw the flour, water and egg into a bowl",
+    ingredients={'flour': '1000 grams', 'water': '1 litre', 'egg': '1'},
     duration='',
     tools=['bowl']
 )

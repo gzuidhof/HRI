@@ -19,6 +19,8 @@ INPUT_FRAMES_PER_BLOCK = int(RATE*INPUT_BLOCK_TIME)
 OVERSENSITIVE = 15.0/INPUT_BLOCK_TIME
 # if we get this many quiet blocks in a row, decrease the threshold
 UNDERSENSITIVE = 120.0/INPUT_BLOCK_TIME
+
+HEARD_SOMETHING = 0.1/INPUT_BLOCK_TIME
 # if the noise was longer than this many blocks, it's not a 'tap'
 MAX_TAP_BLOCKS = 0.15/INPUT_BLOCK_TIME
 
@@ -44,18 +46,14 @@ def get_rms( block ):
 
     return math.sqrt( sum_squares / count )
 
-class TapTester(object):
+class NoiseListener(object):
     def __init__(self):
         self.pa = pyaudio.PyAudio()
-        self.stream = self.open_mic_stream()
         self.tap_threshold = INITIAL_TAP_THRESHOLD
         self.noisycount = MAX_TAP_BLOCKS+1
         self.quietcount = 0
         self.errorcount = 0
         self.callback = None
-
-    def stop(self):
-        self.stream.close()
 
     def find_input_device(self):
         device_index = None
@@ -65,7 +63,7 @@ class TapTester(object):
 
             for keyword in ["mic","input"]:
                 if keyword in devinfo["name"].lower():
-                    print( "Found an input: device %d - %s"%(i,devinfo["name"]) )
+                    #print( "Found an input: device %d - %s"%(i,devinfo["name"]) )
                     device_index = i
                     return device_index
 
@@ -93,43 +91,57 @@ class TapTester(object):
         if self.callback:
             self.callback()
         else:
-            print "Tap!"
+            print "No callback"
 
-    def listen(self):
+    def listen_until_noise(self):
+        while(1==1):
+            stream = self.open_mic_stream()
+            heard_something = self.listen_to_single_block(stream)
+            stream.close()
+            if heard_something:
+                return
+
+    def listen_to_single_block(self, stream):
         try:
-            block = self.stream.read(INPUT_FRAMES_PER_BLOCK)
+            block = stream.read(INPUT_FRAMES_PER_BLOCK)
         except IOError, e:
             # dammit.
             self.errorcount += 1
             print( "(%d) Error recording: %s"%(self.errorcount,e) )
             self.noisycount = 1
-            return
+            return False
 
+        print self.noisycount
         amplitude = get_rms( block )
         if amplitude > self.tap_threshold:
             # noisy block
             self.quietcount = 0
             self.noisycount += 1
+
+            if self.noisycount >= HEARD_SOMETHING:
+                self.noisycount = 0
+                return True
+
             if self.noisycount > OVERSENSITIVE:
                 # turn down the sensitivity
                 self.tap_threshold *= 1.1
         else:
             # quiet block.
-
-            if 1 <= self.noisycount <= MAX_TAP_BLOCKS:
-                self.tapDetected()
             self.noisycount = 0
             self.quietcount += 1
             if self.quietcount > UNDERSENSITIVE:
                 # turn up the sensitivity
                 self.tap_threshold *= 0.9
 
+        return False
+
+
 def printing():
     print "hello"
 
 if __name__ == "__main__":
-    tt = TapTester()
-    tt.setCallback(printing)
+    nl = NoiseListener()
+    nl.setCallback(printing)
 
     for i in range(1000):
-        tt.listen()
+        nl.listen()
