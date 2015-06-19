@@ -67,7 +67,7 @@ green_names = [
 leds.createGroup("GreenGroup",green_names)
 
 
-# Switch the new group on
+# Switch the new groups on
 leds.on("RedGroup")
 leds.on("BlueGroup")
 leds.on("GreenGroup")
@@ -97,4 +97,12 @@ def set_eyes_to_white():
     leds.setIntensity("BlueGroup", 1)
     leds.setIntensity("GreenGroup", 1)
     
-
+def set_eyes_to_turquoise():
+    leds.setIntensity("RedGroup", 0)
+    leds.setIntensity("BlueGroup", 1)
+    leds.setIntensity("GreenGroup", 1)
+    
+def set_eyes_to_off():
+    leds.setIntensity("RedGroup", 0)
+    leds.setIntensity("BlueGroup", 0)
+    leds.setIntensity("GreenGroup", 0)
