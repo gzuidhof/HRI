@@ -65,10 +65,10 @@ class Recipe():
     def ask_tools(self):
         tool_enumeration = ""
         for tool in self.get_current_tools():
-            tool_enumeration += tool + 'and'
+            tool_enumeration += tool + ' and '
 
         #Remove last and
-        tool_enumeration = tool_enumeration[:-3]
+        tool_enumeration = tool_enumeration[:-5]
 
         return "For this step you need a " + tool_enumeration
 
@@ -121,40 +121,60 @@ class Recipe():
 
         return order
 
+step_o = Step(
+    instruction="Preheat the oven to 180 degrees centigrade",
+    ingredients={},
+    duration='',
+    tools=['oven']
+)
 
-## Cupcake recipe definition
-
-cupcakes = Recipe(name = "cupcakes")
-
-step1 = Step(
-    instruction="Throw the flour, water and egg into a bowl",
-    ingredients={'flour': '1000 grams', 'water': '1 litre', 'egg': '1'},
+step_a = Step(
+    instruction="Put the flour into a bowl",
+    ingredients={'flour': '300 grams'},
     duration='',
     tools=['bowl']
 )
 
-step2 = Step(
-    instruction="Mix it all together using your wisk",
-    ingredients={},
-    duration='5 minutes',
-    tools=['wisk']
+step_b = Step(
+    instruction="Add the eggs, milk and butter",
+    ingredients={'eggs': '2', "milk": "100 mililitres", "butter": "100 grams"},
+    duration='',
+    tools=['bowl']
 )
 
-step3 = Step(
-    instruction="Pour the dough into the shapes",
+step_c = Step(
+    instruction="Mix it gently together with your wisk until homogenous",
     ingredients={},
     duration='',
-    tools=['baking shapes']
+    tools=['wisk', 'bowl']
 )
 
-step4 = Step(
-    instruction="Put the baking shapes in the oven",
+step_d = Step(
+    instruction="Beat the mixture until it's fluffy.",
+    ingredients={},
+    duration='3 minutes',
+    tools=['wisk', 'bowl']
+)
+
+step_e = Step(
+    instruction="Put the mixture into the baking shapes with a spoon",
+    ingredients={},
+    duration='',
+    tools=['baking shapes', 'spoon']
+)
+
+step_f = Step(
+    instruction="Put the baking shapes into the oven",
     ingredients={},
     duration='8 minutes',
     tools=['oven']
 )
 
-cupcakes.add_step(step1)
-cupcakes.add_step(step2)
-cupcakes.add_step(step3)
-cupcakes.add_step(step4)
+better_cupcakes = Recipe(name = "BetterCupcakes")
+better_cupcakes.add_step(step_o)
+better_cupcakes.add_step(step_a)
+better_cupcakes.add_step(step_b)
+better_cupcakes.add_step(step_c)
+better_cupcakes.add_step(step_d)
+better_cupcakes.add_step(step_e)
+better_cupcakes.add_step(step_f)

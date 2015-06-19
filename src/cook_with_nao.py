@@ -3,7 +3,7 @@ import facetracker as tracker
 import eye_leds
 from microphone_loudness import NoiseListener
 
-use_nao = False
+use_nao = True
 use_wit = True
 
 if use_nao:
@@ -26,10 +26,12 @@ class Cookert():
     def cook(self):
         #Create noise listener
         listener = NoiseListener()
-        self.say("Hello there human, welcome to the cooking robot demo! I will help you how to make cupcakes"
-                 "by answering your questions. You can ask me what to do, how long, what you need, what the next step is"
-                 "and many other things. Let's begin!"
+        self.faceTracker.start_tracking()
+        self.say("Hello there human, welcome to the cooking robot demo! I will help you how to make cupcakes."
+                 " by answering your questions. You can ask me what to do, how long to do it, what you need, what the next step is"
+                 " and many other things. Let's begin!"
         )
+        self.faceTracker.stop_tracking()
 
         while self.recipe.done == False:
             #Wait until user says "Nao!"
@@ -42,7 +44,7 @@ class Cookert():
             self.listen_and_answer()
 
 
-        self.say("Thank you for cooking with me, I hope to see you again soon!")
+        self.say( "Thank you for cooking with me, I hope to see you again soon!")
             
     def query_user(self):
         self.say("Yessss?")
@@ -74,13 +76,16 @@ class Cookert():
         if intent == 'instruction_navigation':
             if 'relative_instruction_navigation' in response:
                 self.on_navigation_intent(response['relative_instruction_navigation'])
+                if self.recipe.done:
+                    self.say("Okay we're finished.")
             elif "stop" in response:
+                self.say("Okay let's stop.")
                 self.recipe.done = True
         elif intent == 'check_duration':
             self.on_how_long_intent()
         elif intent == 'check_amount':
             self.on_how_much_intent(product_name)
-        elif intent == 'what_tools': #Doesn't exist yet
+        elif intent == 'tools': #Doesn't exist yet
             self.on_tools_intent()
         elif intent == "get_all_ingredients":
             self.on_get_all_ingredients_intent()
@@ -142,7 +147,7 @@ class Cookert():
         speech.say(what)
 
 if __name__ == '__main__':
-    cupcake_recipe = recipe.cupcakes
+    cupcake_recipe = recipe.better_cupcakes
 
     cookert = Cookert(cupcake_recipe)
     cookert.cook()
