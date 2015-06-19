@@ -29,14 +29,15 @@ class FaceTracker():
         if self.use_nao:
             self.faceProxy.stopTracker()
             self.motion.setStiffnesses("Head", 0.0)
+            self.to_default_pos()
             print "Tracking stopped"
     
-    def to_default(self):
+    def to_default_pos(self):
         if self.use_nao:
-            self.motion.setStiffnesses("Head", 1.0)
-            self.motion.setAngles("HeadYaw", 0.0, 0.6)
-            self.motion.setAngles("HeadPitch", 0.0, 0.6)
-#        self.motion.setStiffnesses("Head", 0)
+            self.motion.setStiffnesses("Head", 0.5)
+            self.motion.setAngles("HeadYaw", 0.0, 0.1)
+            self.motion.setAngles("HeadPitch", -0.25, 0.1)
+#            self.motion.setStiffnesses("Head", 0)
     
     def shake_no(self):
         if self.use_nao:
@@ -44,6 +45,7 @@ class FaceTracker():
             currentAngle = self.motion.getAngles("Head", True)[0]
     
             angles = [0.25, 0, -0.25, 0, 0.25, currentAngle]
+            angles = [currentAngle+0.25, currentAngle, currentAngle-0.25, currentAngle, currentAngle+0.25, currentAngle]
             times = [(i/len(angles))+0.2 for i in np.arange(1, len(angles)+1)]
                     
             self.faceProxy.stopTracker()
@@ -57,8 +59,8 @@ class FaceTracker():
         if self.use_nao:
             names = "HeadPitch"        
             currentAngle = self.motion.getAngles("Head", False)[1]
-            angles = [0, 0.15, 0, currentAngle]
-            times = [i/len(angles) for i in np.arange(1, len(angles)+1)]
+            angles = [currentAngle+0.15, currentAngle]
+            times = [i/len(angles)*0.5 for i in np.arange(1, len(angles)+1)]
             
             self.faceProxy.stopTracker()
             self.motion.setStiffnesses("Head", 1.0)
@@ -67,11 +69,11 @@ class FaceTracker():
             self.start_tracking()
     
 if __name__ == '__main__':
-    tracker = FaceTracker()
-#    tracker.start_tracking()
+    tracker = FaceTracker(True)
+    tracker.start_tracking()
 #    time.sleep(5)
 #    tracker.shake_yes()
-    tracker.to_default()
+#    tracker.to_default_pos()
     
     
         

@@ -141,14 +141,14 @@ step2 = Step(
 )
 
 step3 = Step(
-    instruction="Pour it into the shapes",
+    instruction="Pour the dough into the shapes",
     ingredients={},
     duration='',
     tools=['baking shapes']
 )
 
 step4 = Step(
-    instruction="Put it in the oven",
+    instruction="Put the baking shapes in the oven",
     ingredients={},
     duration='8 minutes',
     tools=['oven']
