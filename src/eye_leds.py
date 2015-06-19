@@ -92,4 +92,9 @@ def set_eyes_to_yellow():
     leds.setIntensity("BlueGroup", 0)
     leds.setIntensity("GreenGroup", 1)
     
+def set_eyes_to_white():
+    leds.setIntensity("RedGroup", 1)
+    leds.setIntensity("BlueGroup", 1)
+    leds.setIntensity("GreenGroup", 1)
+    
 
