@@ -1,5 +1,8 @@
 from naoqi import ALProxy
+import facetracker as track
 
-tts = ALProxy("ALTextToSpeech", "10.0.1.2", 9559)
-tts.say("lichtekooi")
+tracker = track.FaceTracker()
+tracker.startTracking()
+
 #tts.say("")
+

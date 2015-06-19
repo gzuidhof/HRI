@@ -2,6 +2,7 @@ import recipe
 import http_request_wit_ai
 import time
 from microphone_loudness import TapTester
+from facetracker import tracker
 
 use_nao = False
 
@@ -15,6 +16,7 @@ class Cookert():
 
     def __init__(self, recipe):
         self.recipe = recipe
+        self.faceTracker = tracker.FaceTracker()
 
 
 
@@ -30,7 +32,9 @@ class Cookert():
 
     #Listen to actual question and answer
     def listen_and_answer(self):
+        self.faceTracker.startTracking()
         resp = self.get_response()
+        
 
     def answer(self, resp):
         if resp:
