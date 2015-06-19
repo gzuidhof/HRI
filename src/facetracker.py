@@ -72,6 +72,3 @@ if __name__ == '__main__':
 #    time.sleep(5)
 #    tracker.shake_yes()
     tracker.to_default()
-    
-    
-        
