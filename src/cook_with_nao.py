@@ -1,14 +1,17 @@
 import recipe
-import http_request_wit_ai
 import time
 from microphone_loudness import NoiseListener
 
-use_nao = True
+use_nao = False
+use_wit = True
 
 if use_nao:
-    import naoqi_speech
+    import naoqi_speech as speech
 else:
-    import speech_synthesis
+    import speech_synthesis as speech
+
+if use_wit:
+    import http_request_wit_ai
 
 
 class Cookert():
@@ -21,10 +24,18 @@ class Cookert():
         listener = NoiseListener()
 
         while self.recipe.done == False:
+            #Wait until user says "Nao!"
             listener.listen_until_noise()
-            self.listen_and_answer()
-            time.sleep(3) #Sleep 3 seconds as Nao talks
 
+            #Ask what's up
+            self.query_user()
+            time.sleep(0.5)
+
+            #Listen to the user
+            self.listen_and_answer()
+            
+    def query_user(self):
+        self.say("Yessss?")
 
     #Listen to actual question and answer
     def listen_and_answer(self):
@@ -36,10 +47,6 @@ class Cookert():
             response, product_name, intent, confidence = resp
         else:
             return
-
-        #Start sequence, say hello
-
-        #while recipe.done == False:
 
         if confidence and confidence < 0.5:
             self.say("I don't know what you mean.")
@@ -59,6 +66,9 @@ class Cookert():
 
 
     def get_response(self):
+        if not use_wit:
+            return
+        
         response = http_request_wit_ai.get_wit_response()
         product_name = None
         intent = None
@@ -102,9 +112,8 @@ class Cookert():
         self.say(self.recipe.ask_tools())
 
     def say(self, what):
-        naoqi_speech.say(what)
-        print what
-
+        print "Saying", what
+        speech.say(what)
 
 if __name__ == '__main__':
     cupcake_recipe = recipe.cupcakes
