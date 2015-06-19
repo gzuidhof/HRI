@@ -1,11 +1,9 @@
 import recipe
-import time
-from microphone_loudness import TapTester
 from facetracker import tracker
+import eye_leds
 from microphone_loudness import NoiseListener
 
-
-use_nao = False
+use_nao = True
 use_wit = True
 
 if use_nao:
@@ -33,10 +31,12 @@ class Cookert():
 
             #Ask what's up
             self.query_user()
-            time.sleep(0.5)
 
             #Listen to the user
             self.listen_and_answer()
+
+
+        self.say("Thank you for cooking with me, I hope to see you again soon!")
             
     def query_user(self):
         self.say("Yessss?")
@@ -44,9 +44,12 @@ class Cookert():
     #Listen to actual question and answer
     def listen_and_answer(self):
         self.faceTracker.startTracking()
+        eye_leds.set_eyes_to_green()
         resp = self.get_response()
+        eye_leds.set_eyes_to_blue()
         self.answer(resp)
         self.faceTracker.stopStracking()
+        eye_leds.set_eyes_to_white()
 
     def answer(self, resp):
         if resp:
@@ -65,20 +68,22 @@ class Cookert():
         if intent == 'instruction_navigation':
             if 'relative_instruction_navigation' in response:
                 self.on_navigation_intent(response['relative_instruction_navigation'])
-            else:
-                print 'askdfjasdfj'
+            elif "stop" in response:
+                self.recipe.done = True
         elif intent == 'check_duration':
             self.on_how_long_intent()
         elif intent == 'check_amount':
             self.on_how_much_intent(product_name)
         elif intent == 'what_tools': #Doesn't exist yet
             self.on_tools_intent()
+        elif intent == "get_all_ingredients":
+            self.on_get_all_ingredients_intent()
 
 
     def get_response(self):
         if not use_wit:
             return
-        
+
         response = http_request_wit_ai.get_wit_response()
         product_name = None
         intent = None
@@ -105,6 +110,8 @@ class Cookert():
             self.say(self.recipe.get_current_instruction())
         elif relative == 'next':
             self.recipe.next_step()
+            if self.recipe.done:
+                return
             self.say(self.recipe.get_current_instruction())
         elif relative == 'previous':
             self.recipe.previous_step()
@@ -120,6 +127,9 @@ class Cookert():
 
     def on_tools_intent(self):
         self.say(self.recipe.ask_tools())
+
+    def on_get_all_ingredients_intent(self):
+        self.say(self.recipe.ask_ingredients())
 
     def say(self, what):
         print "Saying", what
