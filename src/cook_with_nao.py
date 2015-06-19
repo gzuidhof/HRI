@@ -46,6 +46,7 @@ class Cookert():
         self.faceTracker.startTracking()
         resp = self.get_response()
         self.answer(resp)
+        self.faceTracker.stopStracking()
 
     def answer(self, resp):
         if resp:
@@ -54,9 +55,13 @@ class Cookert():
             return
 
         if confidence and confidence < 0.5:
+            self.faceTracker.shake_no()
             self.say("I don't know what you mean.")
             return
-
+            
+        else:
+            self.faceTracker.shake_yes()
+            
         if intent == 'instruction_navigation':
             if 'relative_instruction_navigation' in response:
                 self.on_navigation_intent(response['relative_instruction_navigation'])
