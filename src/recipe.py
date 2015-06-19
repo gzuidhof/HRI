@@ -107,8 +107,8 @@ class Recipe():
 cupcakes = Recipe()
 
 step1 = Step(
-    instruction="Throw everything into a bowl",
-    ingredients={'flour': '1000 gram', 'water': '1 litre', 'egg': '1'},
+    instruction="Throw the flour, water and egg into a bowl",
+    ingredients={'flour': '1000 grams', 'water': '1 litre', 'egg': '1'},
     duration='',
     tools=['bowl']
 )
