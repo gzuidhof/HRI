@@ -1,6 +1,9 @@
 import recipe
 import time
+from microphone_loudness import TapTester
+from facetracker import tracker
 from microphone_loudness import NoiseListener
+
 
 use_nao = False
 use_wit = True
@@ -18,6 +21,7 @@ class Cookert():
 
     def __init__(self, recipe):
         self.recipe = recipe
+        self.faceTracker = tracker.FaceTracker()
 
     def cook(self):
         #Create noise listener
@@ -39,6 +43,7 @@ class Cookert():
 
     #Listen to actual question and answer
     def listen_and_answer(self):
+        self.faceTracker.startTracking()
         resp = self.get_response()
         self.answer(resp)
 
