@@ -74,15 +74,15 @@ class Recipe():
 
     # "What ingredients do I need?"
     def ask_ingredients(self):
-        ingredients = self.get_all_ingredients
+        ingredients = self.get_all_ingredients()
 
         #Construct a sentence
         sentence = "To make " + self.name + " you need "
         n = len(ingredients)
 
-        for i, ingredient in ingredients:
-            if i == n and not i == 0:
-                sentence += "and " + ingredient
+        for i, ingredient in enumerate(ingredients):
+            if i == n-1 and not i == 0:
+                sentence += " and " + ingredient
             else:
                 if i==0:
                     sentence += ingredient
@@ -124,7 +124,7 @@ class Recipe():
 
 ## Cupcake recipe definition
 
-cupcakes = Recipe()
+cupcakes = Recipe(name = "cupcakes")
 
 step1 = Step(
     instruction="Throw the flour, water and egg into a bowl",
