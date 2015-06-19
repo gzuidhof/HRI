@@ -6,9 +6,9 @@ from microphone_loudness import TapTester
 use_nao = False
 
 if use_nao:
-    import naoqi_speech
+    import naoqi_speech as speech
 else:
-    import speech_synthesis
+    import speech_synthesis as speech
 
 
 class Cookert():
@@ -23,10 +23,19 @@ class Cookert():
         listener = TapTester()
 
         while self.recipe.done == False:
+            #Wait until user says "Nao!"
             listener.listen_until_noise()
+
+            #Ask what's up
+            self.query_user()
+            time.sleep(0.5)
+
+            #Listen to the user
             self.listen_and_answer()
             time.sleep(3) #Sleep 3 seconds as Nao talks
 
+    def query_user(self):
+        self.say("Yessss?")
 
     #Listen to actual question and answer
     def listen_and_answer(self):
@@ -103,7 +112,9 @@ class Cookert():
         self.say(self.recipe.ask_tools())
 
     def say(self, what):
-        print what
+        print "Saying ", what
+        speech.say(what)
+
 
 
 if __name__ == '__main__':
