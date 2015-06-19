@@ -19,8 +19,6 @@ class Cookert():
     def __init__(self, recipe):
         self.recipe = recipe
 
-
-
     def cook(self):
         #Create noise listener
         listener = TapTester()
@@ -35,7 +33,10 @@ class Cookert():
 
             #Listen to the user
             self.listen_and_answer()
-            time.sleep(3) #Sleep 3 seconds as Nao talks
+
+            #Sleep 3 as Nao talks
+            if use_nao: #Not required on PC speech synthesis
+                time.sleep(3)
 
     def query_user(self):
         self.say("Yessss?")
