@@ -5,10 +5,11 @@ class Recipe():
         Data structure for recipes, contains a bunch of steps and keeps track
         of where in the process the user is.
     """
-    def __init__(self, steps=[]):
+    def __init__(self, steps=[], name='this'):
         self.steps = steps
         self.step_number = 0
         self.done = False
+        self.name = name
 
     def add_step(self,step):
         self.steps.append(step)
@@ -70,6 +71,25 @@ class Recipe():
         tool_enumeration = tool_enumeration[:-3]
 
         return "For this step you need a " + tool_enumeration
+
+    # "What ingredients do I need?"
+    def ask_ingredients(self):
+        ingredients = self.get_all_ingredients
+
+        #Construct a sentence
+        sentence = "To make " + self.name + " you need "
+        n = len(ingredients)
+
+        for i, ingredient in ingredients:
+            if i == n and not i == 0:
+                sentence += "and " + ingredient
+            else:
+                if i==0:
+                    sentence += ingredient
+                else:
+                    sentence += ", " + ingredient
+
+        return sentence
 
 
     def get_all_tools(self):
