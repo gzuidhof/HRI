@@ -1,9 +1,9 @@
 import recipe
-from facetracker import tracker
+import facetracker as tracker
 import eye_leds
 from microphone_loudness import NoiseListener
 
-use_nao = True
+use_nao = False
 use_wit = True
 
 if use_nao:
@@ -15,15 +15,21 @@ if use_wit:
     import http_request_wit_ai
 
 
+
 class Cookert():
 
     def __init__(self, recipe):
         self.recipe = recipe
         self.faceTracker = tracker.FaceTracker(use_nao)
+        self.ledController = eye_leds.LedController(use_nao)
 
     def cook(self):
         #Create noise listener
         listener = NoiseListener()
+        self.say("Hello there human, welcome to the cooking robot demo! I will help you how to make cupcakes"
+                 "by answering your questions. You can ask me what to do, how long, what you need, what the next step is"
+                 "and many other things. Let's begin!"
+        )
 
         while self.recipe.done == False:
             #Wait until user says "Nao!"
@@ -43,13 +49,13 @@ class Cookert():
 
     #Listen to actual question and answer
     def listen_and_answer(self):
-        self.faceTracker.startTracking()
-        eye_leds.set_eyes_to_green()
+        self.faceTracker.start_tracking()
+        self.ledController.set_eyes_to_green(use_nao)
         resp = self.get_response()
-        eye_leds.set_eyes_to_blue()
+        self.ledController.set_eyes_to_blue(use_nao)
         self.answer(resp)
-        self.faceTracker.stopStracking()
-        eye_leds.set_eyes_to_white()
+        self.faceTracker.stop_tracking()
+        self.ledController.set_eyes_to_white(use_nao)
 
     def answer(self, resp):
         if resp:

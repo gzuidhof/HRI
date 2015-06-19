@@ -71,9 +71,4 @@ class FaceTracker():
 if __name__ == '__main__':
     tracker = FaceTracker(True)
     tracker.start_tracking()
-#    time.sleep(5)
-#    tracker.shake_yes()
-#    tracker.to_default_pos()
-    
-    
-        
+

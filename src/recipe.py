@@ -38,7 +38,7 @@ class Recipe():
         if len(self.get_current_duration()) > 0:
             return self.get_current_instruction() + " for " + self.get_current_duration()
         else:
-            return self.get_current_instruction()
+            return self.get_current_instruction() + " for however long you want!"
 
     def get_current_tools(self):
         return self.steps[self.step_number].tools
