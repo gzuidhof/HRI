@@ -130,43 +130,50 @@ step_o = Step(
 
 step_a = Step(
     instruction="Put the flour into a bowl",
-    ingredients={'flour': '300 grams'},
+    ingredients={'flour': 'the whole package'},
     duration='',
     tools=['bowl']
 )
 
 step_b = Step(
-    instruction="Add the eggs, milk and butter",
-    ingredients={'eggs': '2', "milk": "100 mililitres", "butter": "100 grams"},
+    instruction="Add the eggs, water and butter",
+    ingredients={'eggs': '2', "water": "50 mililitres", "butter": "125 grams"},
     duration='',
     tools=['bowl']
 )
 
 step_c = Step(
-    instruction="Mix it gently together with your wisk until homogenous",
+    instruction="Mix it together using the lowest setting on the mixer until homogenous",
     ingredients={},
     duration='',
-    tools=['wisk', 'bowl']
+    tools=['mixer', 'bowl']
 )
 
 step_d = Step(
     instruction="Beat the mixture until it's fluffy.",
     ingredients={},
-    duration='3 minutes',
+    duration='1 minute',
     tools=['wisk', 'bowl']
 )
 
 step_e = Step(
-    instruction="Put the mixture into the baking shapes with a spoon",
+    instruction="Put the baking shapes on the baking tray",
+    ingredients={},
+    duration='',
+    tools=['baking shapes', 'spoon', 'baking tray']
+)
+
+step_f = Step(
+    instruction="Put the dough into the baking shapes with a spoon",
     ingredients={},
     duration='',
     tools=['baking shapes', 'spoon']
 )
 
-step_f = Step(
+step_g = Step(
     instruction="Put the baking shapes into the oven",
     ingredients={},
-    duration='8 minutes',
+    duration='16 minutes',
     tools=['oven']
 )
 
@@ -178,3 +185,4 @@ better_cupcakes.add_step(step_c)
 better_cupcakes.add_step(step_d)
 better_cupcakes.add_step(step_e)
 better_cupcakes.add_step(step_f)
+better_cupcakes.add_step(step_g)
