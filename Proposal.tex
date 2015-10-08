@@ -1,0 +1,161 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{natbib} %For citing
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Proposal HRI }
+\author{Stef Janssen\\
+	Tom van de Poll\\
+	Luc Nies\\
+	Guido Zuidhof}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\subsection{Topic} We want to make a robot which helps a user perform some cooking task. The robot helps by reading out loud instructions from a recipe and maybe keeping time for certain tasks, for instance when the pasta needs to be cooked for 8 minutes. The user interacts with the robot via natural speech and the robot reacts through synthesized speech.
+
+\subsection{Motivation} We wanted to create this robot because the key part of this project will lie in the interaction, which is the topic of this course, there is not a lot of work which is off-topic. It is also a fun project which could help young and old. Letting a robot and a human collaborate together was also interesting to us since it requires many forms of interaction. 
+
+\subsection{Goal} The goal is to at least let the robot and a user perform a simple recipe together, where the robot provides the instructions and the user has to perform them. When that foundation is ready we can implement improvements: timers, ability to answer open questions (such as, "How long till the pasta is done?").
+
+\subsection{Target Group} The target group is not entirely clear yet: it could be useful for both the young and old but those groups have some differences. Since it is probably dangerous to let a robot alone with a child for a while it is probably safer to start with building it for the elderly. This is useful for them because it can keep them busy and they might have trouble reading a recipe. Of course the elderly are less able to adjust to mistakes the robot makes and also add some other difficulties.
+
+\subsection{Risks} There are a number of possible risks and problems during this project. The first risk is having the robot in a possibly hazardous environment during the experiment. In order to conduct this experiment, the participant will have to cook certain recipes together with the robot. This means the robot will have to be placed in a kitchen, which has numerous appliances that could possibly damage the robot. In order to minimize these risks, the robot will not participate in the actual cooking of the recipe. The robot will be seated on the counter, at a reasonable distance from the participant while the experiment is being conducted.
+
+A second problem might be that the cooking noises during the experiment might disrupt communication between the participant and the robot. The robot might find it hard to interpret the questions asked by the participant, while the participant might have trouble hearing the answers of the robot.
+
+Aside from the possible hardware problems mentioned above, some difficulties might also arise on the software side of things. A possible problem might be to difficulties in implementing a sufficiently effective and rich dialogue manager. 
+
+No big difficulties are expected in the programming side of voice recognition, since WIT.AI will be used for this functionality.
+
+The most obvious and dangerous risk is of course a possible addiction to muffins caused by this experiment. The only real way to solve this is by switching to making pancakes when the participants begin to show signs of addiction.
+
+
+\section{Related Work}
+There are already some robots that help in the kitchen, but those robots are mainly focused on the cooking itself while still needing assistance from a human\cite{bollini2013interpreting, yan2007novel, 1641754}, while we try to make a cooking robot that is assisting you.
+A smart to help robots helping you in the kitchen is with the use of markers, so that robots can more easily recognize objects \cite{sugiura2010cooking}. Another example of robots helping in the kitchen are robots which derive the next action a person should take, derived from earlier actions \cite{1374787}. As will be explained greater detail in the risks section, the kitchen might be a very noisy place and we need a way to filter that noise before we van do any speech recognition. For this we could use the aurora framework \cite{hirsch2000aurora}. Since conversations are an important part of our project we need a good dialog system which we can base on an existing framework \cite{li2006dialog}.
+
+
+
+\section{Method}
+To perform dialogue as we intend to several steps have to be made:
+Understand speech
+Construct meaningful response
+Synthesize speech
+
+Understanding speech can be then split up into: constructing words from speech and obtain intent/meaning from the sentence.
+
+So there are several steps that have to be performed to implement dialogue:
+\begin{enumerate}
+\item Understand speech
+\item Construct meaningful response
+\item Synthesize speech
+\end{enumerate}
+
+There is a website WIT.AI we can incorporate to handle the first step, we simply have to send the raw sound to it and it will return not only a raw string but also certain entities and keywords we are looking for.
+
+Synthesizing speech is already there in Naomi. 
+
+Constructing the meaningful response is the hard part of this project and a plan still has to be formed to tackle that problem. There are several methods to manage this and those will be considered in the first steps of the design.
+
+We will test different level of complexities of recipes and research whether the interaction was smooth and if it is preferable to performing the task by yourself.
+
+\section{Plan}
+We plan on applying AGILE development methodologies. The plan is to work iteratively, working from working version to working version. In the first month we will attempt to implement the most basic version of our project and from then on make it more advanced.
+
+Here is a draft overview of proposed versions without dates:
+
+\paragraph{Prototype 1}
+\begin{enumerate}
+\item Can synthesize speech
+\item Can understand simple commands such as \emph{"Set a timer for 3 minutes please"}
+
+\end{enumerate}
+
+\paragraph{Prototype 2}
+\begin{enumerate}
+\item Can answer questions about running commands such as \emph{"How long until the oven timer is done?"}
+\item Has an internal representation of the recipe
+\item Looks at the user (when asked questions)
+
+\end{enumerate}
+
+\paragraph{Prototype 3}
+\begin{enumerate}
+\item Keeps track of the progress of the recipe
+\item Asks the user about the progress to update this knowledge
+
+\end{enumerate}
+
+
+\paragraph{Nice to have}
+\emph{(Only to be implemented if time permits)}
+
+\begin{enumerate}
+\item Can answer more complex questions such as \emph{"What was the oven temperature again?"}
+\item Knows multiple recipes
+\item When shown the box (with barcode) of a 'maaltijdmix', it looks this up in a (small) repository of recipes and loads it.
+
+\end{enumerate}
+
+
+
+\bibliographystyle{plain}
+\bibliography{literature/bieb}
+
+\end{document}
